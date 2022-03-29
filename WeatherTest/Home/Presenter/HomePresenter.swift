@@ -45,8 +45,8 @@ final class HomePresenter {
     //MARK: - Public Methods
     func changeTempUnit() {
         //realm
-//        guard let city = weatherCity?.first, let futureWeather = weathersFuture else {return}
-//        self.view?.changeTemp(isCelsius: isCelsius, city: city, futureWeather: Array(futureWeather))
+        //        guard let city = weatherCity?.first, let futureWeather = weathersFuture else {return}
+        //        self.view?.changeTemp(isCelsius: isCelsius, city: city, futureWeather: Array(futureWeather))
         guard let city = weatherCity, let futureWeather = weathersFuture else {return}
         self.view?.changeTemp(isCelsius: isCelsius, city: city, futureWeather: futureWeather)
         
@@ -60,16 +60,16 @@ final class HomePresenter {
                 self?.createdDaysArray(weatherByHours: weatherObject.list)
                 
                 // FOR REALM
-//                let tempWeatherCity = self?.createdWeatherCity(city: weatherObject, weather: self?.weatherHoursCurrentDay ?? weatherObject.list)
-//                let itemWeathersFuture = self?.createdArrayWeathersFuture()
-//                DispatchQueue.main.async {
-//                    if let data = tempWeatherCity, let feature = itemWeathersFuture {
-//                        RealmManager.save(items: [data])
-//                        RealmManager.save(items: feature)
-//                        guard let city = self?.weatherCity?.first, let futureWeather = self?.weathersFuture else {return}
-//                        self?.view?.reloadView(city: city, futureWeather: Array(futureWeather))
-//                    }
-//                }
+                //                let tempWeatherCity = self?.createdWeatherCity(city: weatherObject, weather: self?.weatherHoursCurrentDay ?? weatherObject.list)
+                //                let itemWeathersFuture = self?.createdArrayWeathersFuture()
+                //                DispatchQueue.main.async {
+                //                    if let data = tempWeatherCity, let feature = itemWeathersFuture {
+                //                        RealmManager.save(items: [data])
+                //                        RealmManager.save(items: feature)
+                //                        guard let city = self?.weatherCity?.first, let futureWeather = self?.weathersFuture else {return}
+                //                        self?.view?.reloadView(city: city, futureWeather: Array(futureWeather))
+                //                    }
+                //                }
                 
                 self?.weatherCity = self?.createdWeatherCity(city: weatherObject, weather: self?.weatherHoursCurrentDay ?? weatherObject.list)
                 self?.weathersFuture = self?.createdArrayWeathersFuture()
@@ -83,15 +83,15 @@ final class HomePresenter {
         }
         
         // FOR REALM
-//        let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-//        let realm = try? Realm(configuration: config)
-//        self.weatherCity = realm?.objects(WeatherCityToday.self)
-//        self.weathersFuture = realm?.objects(WeatherCityFuture.self)
-//
-//        DispatchQueue.main.async {
-//            guard let city = self.weatherCity?.first, let futureWeather = self.weathersFuture else {return}
-//            self.view?.reloadView(city: city, futureWeather: Array(futureWeather))
-//        }
+        //        let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+        //        let realm = try? Realm(configuration: config)
+        //        self.weatherCity = realm?.objects(WeatherCityToday.self)
+        //        self.weathersFuture = realm?.objects(WeatherCityFuture.self)
+        //
+        //        DispatchQueue.main.async {
+        //            guard let city = self.weatherCity?.first, let futureWeather = self.weathersFuture else {return}
+        //            self.view?.reloadView(city: city, futureWeather: Array(futureWeather))
+        //        }
     }
     
     private func createdArrayWeathersFuture() -> [WeatherCityFuture] {
@@ -166,18 +166,90 @@ final class HomePresenter {
         let dayCurrent = getCurrentDay()
         for weatherByHour in weatherByHours {
             let day = getDayFromDate(dateString: weatherByHour.dtTxt)
-            switch day {
-            case dayCurrent:
-                weatherHoursCurrentDay.append(weatherByHour)
-            case dayCurrent + 1:
-                weatherHoursTomorrow.append(weatherByHour)
-            case dayCurrent + 2:
-                weatherHoursThreeDay.append(weatherByHour)
-            case dayCurrent + 3:
-                weatherHoursFourDay.append(weatherByHour)
-            case dayCurrent + 4:
-                weatherHoursFiveDay.append(weatherByHour)
-            default: break
+            switch dayCurrent {
+            case 0..<28:
+                switch day {
+                case dayCurrent:
+                    weatherHoursCurrentDay.append(weatherByHour)
+                case dayCurrent + 1:
+                    weatherHoursTomorrow.append(weatherByHour)
+                case dayCurrent + 2:
+                    weatherHoursThreeDay.append(weatherByHour)
+                case dayCurrent + 3:
+                    weatherHoursFourDay.append(weatherByHour)
+                    print(weatherHoursFourDay.count)
+                case dayCurrent + 4:
+                    weatherHoursFiveDay.append(weatherByHour)
+                    print(weatherHoursFiveDay)
+                default: break
+                }
+                
+            case 28:
+                switch day {
+                case dayCurrent:
+                    weatherHoursCurrentDay.append(weatherByHour)
+                case dayCurrent + 1:
+                    weatherHoursTomorrow.append(weatherByHour)
+                case dayCurrent + 2:
+                    weatherHoursThreeDay.append(weatherByHour)
+                case dayCurrent + 3:
+                    weatherHoursFourDay.append(weatherByHour)
+                    print(weatherHoursFourDay.count)
+                case 1:
+                    weatherHoursFiveDay.append(weatherByHour)
+                    print(weatherHoursFiveDay)
+                default: break
+                }
+                
+            case 29:
+                switch day {
+                case dayCurrent:
+                    weatherHoursCurrentDay.append(weatherByHour)
+                case dayCurrent + 1:
+                    weatherHoursTomorrow.append(weatherByHour)
+                case dayCurrent + 2:
+                    weatherHoursThreeDay.append(weatherByHour)
+                case 1:
+                    weatherHoursFourDay.append(weatherByHour)
+                    print(weatherHoursFourDay.count)
+                case 2:
+                    weatherHoursFiveDay.append(weatherByHour)
+                    print(weatherHoursFiveDay)
+                default: break
+                }
+                
+            case 30:
+                switch day {
+                case dayCurrent:
+                    weatherHoursCurrentDay.append(weatherByHour)
+                case dayCurrent + 1:
+                    weatherHoursTomorrow.append(weatherByHour)
+                case 1:
+                    weatherHoursThreeDay.append(weatherByHour)
+                case 2:
+                    weatherHoursFourDay.append(weatherByHour)
+                    print(weatherHoursFourDay.count)
+                case 3:
+                    weatherHoursFiveDay.append(weatherByHour)
+                    print(weatherHoursFiveDay)
+                default: break
+                }
+            default:
+                switch day {
+                case dayCurrent:
+                    weatherHoursCurrentDay.append(weatherByHour)
+                case 1:
+                    weatherHoursTomorrow.append(weatherByHour)
+                case 2:
+                    weatherHoursThreeDay.append(weatherByHour)
+                case 3:
+                    weatherHoursFourDay.append(weatherByHour)
+                    print(weatherHoursFourDay.count)
+                case 4:
+                    weatherHoursFiveDay.append(weatherByHour)
+                    print(weatherHoursFiveDay)
+                default: break
+                }
             }
         }
     }
